@@ -3,7 +3,7 @@ package OpenTracing::GlobalTracer;
 use strict;
 use warnings;
 
-use aliased 'OpenTracing::Implementation::NoOp::Tracer';
+use OpenTracing::Implementation::NoOp::Tracer;
 
 use Carp;
 
@@ -70,7 +70,7 @@ sub get_global_tracer {
     carp "GlobalTracer is using defaulted 'NoOp' implementation"
         if $ENV{OPENTRACING_DEBUG};
     
-    return Tracer->new( )
+    return OpenTracing::Implementation::NoOp::Tracer->new( )
 }
 
 
