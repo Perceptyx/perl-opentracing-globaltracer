@@ -45,6 +45,7 @@ sub import {
     carp "$fully_qualified_name installed"
         if $ENV{OPENTRACING_DEBUG};
     
+    return
 }
 
 
