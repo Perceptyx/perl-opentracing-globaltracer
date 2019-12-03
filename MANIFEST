@@ -1,0 +1,7 @@
+cpanfile
+lib/OpenTracing/GlobalTracer.pm
+lib/OpenTracing/GlobalTracer.pod
+t/00_use_ok.t
+Makefile.PL
+MANIFEST
+README.md
