@@ -3,6 +3,10 @@ package OpenTracing::GlobalTracer;
 use strict;
 use warnings;
 
+our $VERSION = '0.01';
+
+
+
 use OpenTracing::Implementation::NoOp::Tracer;
 
 use Carp;
