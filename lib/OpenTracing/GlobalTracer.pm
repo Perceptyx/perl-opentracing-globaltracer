@@ -41,7 +41,10 @@ sub import {
         #    if B::svref_2object(\*$fully_qualified_name)->SV->$*;
         *$fully_qualified_name = \$TRACER;
     }
-    carp "$fully_qualified_name installed";
+    
+    carp "$fully_qualified_name installed"
+        if $ENV{OPENTRACING_DEBUG};
+    
 }
 
 
