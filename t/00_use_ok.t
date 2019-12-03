@@ -1,5 +1,5 @@
 use Test::Most;
 
-BEGIN { use_ok('OpenTracing::GlobalTracing') };
+BEGIN { use_ok('OpenTracing::GlobalTracer') };
 
 done_testing;
