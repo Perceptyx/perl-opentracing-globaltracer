@@ -1,0 +1,63 @@
+image: ubuntu:bionic
+
+variables:
+  DEPENDENCIES:
+  - package: 'OpenTracing::Interface'
+    project: '311'
+  - package: 'OpenTracing::Implementation::NoOp'
+    project: '320'
+
+stages:
+  - test
+  - build
+
+before_script:
+  - echo "Before script installation"
+  - apt update
+    && apt install
+       libdevel-cover-perl
+       libtap-formatter-junit-perl
+       libjson-xs-perl
+       libtest-most-perl
+       libtest-mockmodule-perl
+       cpanminus
+       make
+       curl
+       unzip
+    -y
+
+
+test:unit:
+  stage: test
+  script:
+    - curl --location --output artifacts.zip 'https://git.perceptyx.com/api/v4/projects/331/jobs/artifacts/master/download?job=package'
+      && unzip artifacts.zip
+      && rm artifacts.zip
+      && cpanm *.tar.gz
+      && rm *.tar.gz
+    - mv cpanfile cpanfile.bak
+      && sed '/OpenTracing::Interface/d' cpanfile.bak > cpanfile
+      && rm cpanfile.bak
+      
+    - curl --location --output artifacts.zip 'https://git.perceptyx.com/api/v4/projects/320/jobs/artifacts/master/download?job=package'
+      && unzip artifacts.zip
+      && rm artifacts.zip
+      && cpanm *.tar.gz
+      && rm *.tar.gz
+    - mv cpanfile cpanfile.bak
+      && sed '/OpenTracing::Implementation::NoOp/d' cpanfile.bak > cpanfile
+      && rm cpanfile.bak
+      
+    - cpanm --installdeps .
+    - prove -MDevel::Cover -l lib -r t/
+  coverage: /Totals+.+s(d+.d+?)$/
+
+package:
+  stage: build
+  script:
+    - perl Makefile.PL
+      && make dist
+  artifacts:
+    paths:
+    - "*.tar.gz"
+    expire_in: 1 week
