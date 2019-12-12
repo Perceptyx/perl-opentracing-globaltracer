@@ -1,11 +1,14 @@
 image: ubuntu:bionic
 
-variables:
-  DEPENDENCIES:
-  - package: 'OpenTracing::Interface'
-    project: '311'
-  - package: 'OpenTracing::Implementation::NoOp'
-    project: '320'
+# variables:
+#   DEPENDENCIES:
+#   - package: 'OpenTracing::Interface'
+#     project: '311'
+#   - package: 'OpenTracing::Implementation::NoOp'
+#     project: '320'
+#
+# XXX Sadly, Gitlab-CI does not allow hashes, only straight key/value pairs.
+#     Just keep this list as a reference.
 
 stages:
   - test
