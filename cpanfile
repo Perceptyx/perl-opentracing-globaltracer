@@ -1,4 +1,6 @@
-requires                "OpenTracing::Implementation::NoOp::Tracer";
+on 'runtime' => sub {
+    requires            "OpenTracing::Implementation::NoOp::Tracer";
+};
 
 requires                "Carp";
 
