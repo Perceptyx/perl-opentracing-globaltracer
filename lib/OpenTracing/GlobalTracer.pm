@@ -7,11 +7,20 @@ our $VERSION = '0.01';
 
 
 
-use OpenTracing::Implementation::NoOp::Tracer;
 
 use Carp;
+use Module::Load;
 
 my $TRACER;
+
+my $GLOBALTRACER_DEFAULT =
+    $ENV{OPENTRACING_GLOBALTRACER_DEFAULT}
+    ||
+    'OpenTracing::Implementation::NoOp::Tracer';
+
+eval { load $GLOBALTRACER_DEFAULT };
+carp "GlobalTracer can't find default implementation [$GLOBALTRACER_DEFAULT]"
+    if $@;
 
 
 
@@ -75,10 +84,14 @@ sub get_global_tracer {
     return $TRACER
         if defined $TRACER;
     
-    carp "GlobalTracer is using defaulted 'NoOp' implementation"
+    carp "GlobalTracer is using defaulted implementation"
         if $ENV{OPENTRACING_DEBUG};
     
-    return OpenTracing::Implementation::NoOp::Tracer->new( )
+    my $tracer = eval { $GLOBALTRACER_DEFAULT->new( ) };
+    croak "GlobalTracer can't instantiate tracer [$GLOBALTRACER_DEFAULT]"
+        if $@;
+    
+    return $tracer
 }
 
 
