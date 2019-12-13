@@ -54,7 +54,7 @@ test:unit:
       && rm cpanfile.bak
       
     - cpanm --installdeps .
-    - prove -MDevel::Cover -l lib -r t/
+    - OPENTRACING_INTERFACE=1 prove -MDevel::Cover -l lib -r t/
   coverage: /Totals+.+s(d+.d+?)$/
 
 package:
