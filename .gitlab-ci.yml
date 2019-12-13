@@ -36,7 +36,7 @@ test:unit:
     - curl --location --output artifacts.zip 'https://git.perceptyx.com/api/v4/projects/331/jobs/artifacts/master/download?job=package'
       && unzip artifacts.zip
       && rm artifacts.zip
-      && cpanm --verbose --install-deps *.tar.gz
+      && cpanm --verbose --installdeps *.tar.gz
       && cpanm --verbose *.tar.gz
       && rm *.tar.gz
     - mv cpanfile cpanfile.bak
@@ -46,7 +46,7 @@ test:unit:
     - curl --location --output artifacts.zip 'https://git.perceptyx.com/api/v4/projects/320/jobs/artifacts/master/download?job=package'
       && unzip artifacts.zip
       && rm artifacts.zip
-      && cpanm --verbose --install-deps *.tar.gz
+      && cpanm --verbose --installdeps *.tar.gz
       && cpanm --verbose *.tar.gz
       && rm *.tar.gz
     - mv cpanfile cpanfile.bak
