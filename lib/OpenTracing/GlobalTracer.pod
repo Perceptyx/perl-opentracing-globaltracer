@@ -56,6 +56,16 @@ to prevent crashing.
 
 
 
+=head1 ENVIRONMENT VARIABLES
+
+
+
+=head2 OPENTRACING_GLOBALTRACER_DEFAULT
+
+This variable can be set to override the default NoOp implementation.
+
+
+
 =head1 CAVEATS
 
 When using the C<$TRACER> variable, one still needs to be careful, it could be

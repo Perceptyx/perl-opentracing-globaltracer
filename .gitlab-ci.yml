@@ -43,15 +43,15 @@ test:unit:
       && sed '/OpenTracing::Interface/d' cpanfile.bak > cpanfile
       && rm cpanfile.bak
       
-    - curl --location --output artifacts.zip 'https://git.perceptyx.com/api/v4/projects/320/jobs/artifacts/master/download?job=package'
-      && unzip artifacts.zip
-      && rm artifacts.zip
-      && cpanm --verbose --installdeps *.tar.gz
-      && cpanm --verbose *.tar.gz
-      && rm *.tar.gz
-    - mv cpanfile cpanfile.bak
-      && sed '/OpenTracing::Implementation::NoOp/d' cpanfile.bak > cpanfile
-      && rm cpanfile.bak
+#   - curl --location --output artifacts.zip 'https://git.perceptyx.com/api/v4/projects/320/jobs/artifacts/master/download?job=package'
+#     && unzip artifacts.zip
+#     && rm artifacts.zip
+#     && cpanm --verbose --installdeps *.tar.gz
+#     && cpanm --verbose *.tar.gz
+#     && rm *.tar.gz
+#   - mv cpanfile cpanfile.bak
+#     && sed '/OpenTracing::Implementation::NoOp/d' cpanfile.bak > cpanfile
+#     && rm cpanfile.bak
       
     - cpanm --installdeps .
     - OPENTRACING_INTERFACE=1 prove -MDevel::Cover -l lib -r t/
