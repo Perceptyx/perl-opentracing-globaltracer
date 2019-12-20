@@ -19,6 +19,7 @@ before_script:
   - apt update
     && apt install
        libdevel-cover-perl
+       libextutils-makemaker-cpanfile-perl
        libtap-formatter-junit-perl
        libjson-xs-perl
        libtest-most-perl
