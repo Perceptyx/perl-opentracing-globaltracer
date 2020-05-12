@@ -18,6 +18,12 @@ and in the various part of the code:
 
     my $scope = $TRACER->start_active_span( $operation_name );
 
+alternatively:
+
+    use OpenTracing::GlobalTracer qw/get_global_tracer/;
+
+    my $global_tracer = get_global_tracer();
+
 
 
 =head1 DESCRIPTION
@@ -52,7 +58,7 @@ Sets the global tracer singleton.
 
 Returns a global tracer if some is set. If none is set, it will return the
 L<OpenTracing::Implementation::NoOp> implementation, compliant to the definition
-to prevent crashing.
+to prevent crashing. This method can be exported and treated like a function.
 
 
 

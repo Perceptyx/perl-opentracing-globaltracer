@@ -6,7 +6,10 @@ use warnings;
 our $VERSION = '0.04';
 
 use Carp;
+use Exporter;
 use Module::Load;
+
+our @EXPORT_OK = qw(get_global_tracer);
 
 my $TRACER;
 
@@ -24,15 +27,18 @@ carp "GlobalTracer can't find default implementation [$GLOBALTRACER_DEFAULT]"
 sub import {
     my $class = shift;
     
-    croak "OpenTracing::GlobalTracer has too many parameters when loading"
-        if @_ > 1;
+    my (@variables, @methods);
+    foreach (@_) {
+      push @{ /^\$\w+$/ ? \@variables : \@methods }, $_;
+    }
+
+    croak 'Only one variable can be exported' if @variables > 1;
     
-    my $injected_variable = shift // '$TRACER';
+    my $injected_variable = $variables[0] // '$TRACER';
     # Normally we'd expect the caller to provide a variable name - but if they
     # don't, `$tracer` seems as good a default as any
     
-    my ($bare_name) = $injected_variable =~ /^\$(\w+)$/
-        or croak "invalid injected variable name [$injected_variable]";
+    my ($bare_name) = $injected_variable =~ /^\$(\w+)$/;
     
     my ($package_name) = caller;
     my $fully_qualified_name = $package_name . '::' . $bare_name;
@@ -54,6 +60,9 @@ sub import {
     
     carp "$fully_qualified_name installed"
         if $ENV{OPENTRACING_DEBUG};
+
+    @_ = ($class, @methods);
+    goto &Exporter::import;
     
     return
 }
